@@ -19,12 +19,19 @@ public class ProgettoRepository {
         return mProgettoDao.getProjectsForUser(userId);
     }
 
-    public void insert(Progetto progetto) {
+    public void insert(Progetto progetto, OnInsertListener listener) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            mProgettoDao.insert(progetto);
+            long id = mProgettoDao.insert(progetto);
+            if (listener != null) {
+                listener.onInsert(id);
+            }
         });
     }
-    
+
+    public interface OnInsertListener {
+        void onInsert(long id);
+    }
+
     public void delete(Progetto progetto) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mProgettoDao.delete(progetto);

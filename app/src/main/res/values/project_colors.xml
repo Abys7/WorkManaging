@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="status_not_started">#808080</color> <!-- Gray -->
+    <color name="status_in_progress">#404040</color> <!-- Dark Gray / Black-ish -->
+    <color name="status_completed">#000000</color>   <!-- Black -->
+</resources>

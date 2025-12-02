@@ -14,8 +14,12 @@ public class UserRepository {
         mUserDao = db.userDao();
     }
 
-    public LiveData<User> login(String email, String password) {
-        return mUserDao.login(email, password);
+    public LiveData<User> getUserByEmail(String email) {
+        return mUserDao.getUserByEmail(email);
+    }
+    
+    public LiveData<User> getUserByUsername(String username) {
+        return mUserDao.getUserByUsername(username);
     }
     
     public LiveData<User> getUserById(int id) {

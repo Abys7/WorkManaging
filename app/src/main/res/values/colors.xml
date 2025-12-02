@@ -2,5 +2,33 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_blue">#ADD8E6</color>
+    <color name="gray">#808080</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="dark_gray">#404040</color>
+    
+    <!-- Removed light_blue, replaced usages with gray/black in layouts implicitly via styles or direct replacement -->
+    <!-- But to avoid compilation errors if it's referenced somewhere I missed, I'll map it to gray temporarily or just remove it if I update all layouts -->
+    <!-- Let's define theme colors here -->
+    <color name="colorPrimary">@color/black</color>
+    <color name="colorPrimaryVariant">@color/dark_gray</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorSecondary">@color/gray</color>
+    <color name="colorSecondaryVariant">@color/light_gray</color>
+    <color name="colorOnSecondary">@color/black</color>
+    
+    <!-- Navigation colors -->
+    <color name="nav_item_color">@color/black</color>
+    <!-- Renamed to avoid conflict -->
+    <color name="my_black">#FF000000</color>
+    <color name="my_white">#FFFFFFFF</color>
+
+
+    <!-- <color name="colorPrimary">@color/my_black</color> -->
+
+    <!-- <color name="colorOnPrimary">@color/my_white</color> -->
+
+    <!-- <color name="colorOnSecondary">@color/my_black</color> -->
+
+
+    <!-- <color name="nav_item_color">@color/my_black</color> -->
 </resources>

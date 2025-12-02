@@ -21,7 +21,11 @@ public class ClienteViewModel extends AndroidViewModel {
     }
 
     public void insert(Cliente cliente) {
-        mRepository.insert(cliente);
+        mRepository.insert(cliente, null);
+    }
+
+    public void insert(Cliente cliente, ClienteRepository.OnInsertListener listener) {
+        mRepository.insert(cliente, listener);
     }
     
     public void delete(Cliente cliente) {

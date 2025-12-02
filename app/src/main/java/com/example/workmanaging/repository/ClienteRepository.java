@@ -6,6 +6,7 @@ import com.example.workmanaging.model.dao.ClienteDao;
 import com.example.workmanaging.model.database.AppDatabase;
 import com.example.workmanaging.model.entity.Cliente;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class ClienteRepository {
     private ClienteDao mClienteDao;
@@ -19,10 +20,17 @@ public class ClienteRepository {
         return mClienteDao.getClientsForUser(userId);
     }
 
-    public void insert(Cliente cliente) {
+    public void insert(Cliente cliente, OnInsertListener listener) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
-            mClienteDao.insert(cliente);
+            long id = mClienteDao.insert(cliente);
+            if (listener != null) {
+                listener.onInsert(id);
+            }
         });
+    }
+
+    public interface OnInsertListener {
+        void onInsert(long id);
     }
 
     public void delete(Cliente cliente) {

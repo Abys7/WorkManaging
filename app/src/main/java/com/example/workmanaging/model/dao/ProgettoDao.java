@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface ProgettoDao {
     @Insert
-    void insert(Progetto progetto);
+    long insert(Progetto progetto);
 
     @Update
     void update(Progetto progetto);

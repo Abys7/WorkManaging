@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.workmanaging.R;
-import com.example.workmanaging.view.adapter.UserActionAdapter;
-import com.example.workmanaging.viewmodel.UserActionViewModel;
+import com.example.workmanaging.view.adapter.ProjectAdapter;
+import com.example.workmanaging.viewmodel.ProgettoViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class ProjectsActivity extends AppCompatActivity {
 
-    private UserActionViewModel userActionViewModel;
+    private ProgettoViewModel progettoViewModel;
     private static final String PREFS_NAME = "WorkManagingPrefs";
     private static final String KEY_USER_ID = "userId";
 
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        setContentView(R.layout.activity_projects);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
@@ -43,50 +43,49 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Profile Button Logic
         ImageButton btnProfile = findViewById(R.id.profile_icon);
         btnProfile.setOnClickListener(v -> {
             startActivity(new Intent(this, AccountActivity.class));
         });
 
-        RecyclerView recyclerView = findViewById(R.id.rv_recent_actions);
+        RecyclerView recyclerView = findViewById(R.id.rv_projects);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        UserActionAdapter adapter = new UserActionAdapter();
+        ProjectAdapter adapter = new ProjectAdapter();
         recyclerView.setAdapter(adapter);
 
-        userActionViewModel = new ViewModelProvider(this).get(UserActionViewModel.class);
-        userActionViewModel.getActionsForUser(userId).observe(this, actions -> {
-            adapter.setActions(actions);
+        progettoViewModel = new ViewModelProvider(this).get(ProgettoViewModel.class);
+        progettoViewModel.getProjectsForUser(userId).observe(this, projects -> {
+            adapter.setProjects(projects);
         });
 
-        adapter.setOnItemClickListener(action -> {
-            if ("CREATE_CLIENT".equals(action.actionType)) {
-                Intent intent = new Intent(this, ClientDetailActivity.class);
-                intent.putExtra("CLIENT_ID", action.referenceId);
-                startActivity(intent);
-            } else if ("CREATE_PROJECT".equals(action.actionType) || "OPEN_PROJECT".equals(action.actionType)) {
-                Intent intent = new Intent(this, ProjectDetailActivity.class);
-                intent.putExtra("PROJECT_ID", action.referenceId);
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener(project -> {
+            Intent intent = new Intent(ProjectsActivity.this, ProjectDetailActivity.class);
+            intent.putExtra("PROJECT_ID", project.progettoId);
+            startActivity(intent);
+        });
+
+        ImageButton btnAdd = findViewById(R.id.btn_add_project);
+        btnAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(ProjectsActivity.this, NewProjectActivity.class);
+            startActivity(intent);
         });
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        bottomNav.setSelectedItemId(R.id.navigation_home);
+        bottomNav.setSelectedItemId(R.id.navigation_projects);
 
         bottomNav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.navigation_home) {
+            if (itemId == R.id.navigation_projects) {
                 return true;
-            } else if (itemId == R.id.navigation_clients) {
-                startActivity(new Intent(getApplicationContext(), ClientsActivity.class));
+            } else if (itemId == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;
-            } else if (itemId == R.id.navigation_projects) {
-                startActivity(new Intent(getApplicationContext(), ProjectsActivity.class));
+            } else if (itemId == R.id.navigation_clients) {
+                startActivity(new Intent(getApplicationContext(), ClientsActivity.class));
                 overridePendingTransition(0, 0);
                 finish();
                 return true;

@@ -21,7 +21,11 @@ public class ProgettoViewModel extends AndroidViewModel {
     }
 
     public void insert(Progetto progetto) {
-        mRepository.insert(progetto);
+        mRepository.insert(progetto, null);
+    }
+
+    public void insert(Progetto progetto, ProgettoRepository.OnInsertListener listener) {
+        mRepository.insert(progetto, listener);
     }
     
     public void delete(Progetto progetto) {

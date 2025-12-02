@@ -16,9 +16,12 @@ public interface UserDao {
     @Update
     void update(User user);
 
-    @Query("SELECT * FROM utente WHERE email = :email AND password = :password LIMIT 1")
-    LiveData<User> login(String email, String password);
+    @Query("SELECT * FROM utente WHERE email = :email LIMIT 1")
+    LiveData<User> getUserByEmail(String email);
 
     @Query("SELECT * FROM utente WHERE user_id = :id")
     LiveData<User> getUserById(int id);
+    
+    @Query("SELECT * FROM utente WHERE nome_utente = :username LIMIT 1")
+    LiveData<User> getUserByUsername(String username);
 }

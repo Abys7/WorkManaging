@@ -11,17 +11,20 @@ import java.util.concurrent.Executors;
 import com.example.workmanaging.model.entity.User;
 import com.example.workmanaging.model.entity.Cliente;
 import com.example.workmanaging.model.entity.Progetto;
+import com.example.workmanaging.model.entity.UserAction;
 import com.example.workmanaging.model.dao.UserDao;
 import com.example.workmanaging.model.dao.ClienteDao;
 import com.example.workmanaging.model.dao.ProgettoDao;
+import com.example.workmanaging.model.dao.UserActionDao;
 
-@Database(entities = {User.class, Cliente.class, Progetto.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, Cliente.class, Progetto.class, UserAction.class}, version = 2, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract ClienteDao clienteDao();
     public abstract ProgettoDao progettoDao();
+    public abstract UserActionDao userActionDao();
 
     private static volatile AppDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -34,6 +37,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "work_managing_database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
